@@ -1,8 +1,11 @@
 package frc.robot;
 
+import frc.robot.constants.Constants.OperatorConstants;
 import frc.robot.constants.Constants.ShuffleboardConstants;
+import frc.robot.subsystems.Intake;
 
 import frc.robot.commands.Autos;
+import frc.robot.commands.intake.HoldIntakeOut;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -29,8 +32,11 @@ public class RobotContainer {
 	}
 
 	/* joysticks */
+	public final CommandXboxController driverController = new CommandXboxController(
+		OperatorConstants.driverControllerPort);
 
 	/* subsystems */
+	private final Intake intake = new Intake();
 
 	private LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("auto routine");
 
@@ -58,7 +64,7 @@ public class RobotContainer {
 	 * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
 	 */
 	private void configureBindings() {
-
+		driverController.leftBumper().whileTrue(new HoldIntakeOut(intake));
 	}
 
 	/**
