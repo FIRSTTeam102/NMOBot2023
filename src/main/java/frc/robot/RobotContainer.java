@@ -2,9 +2,11 @@ package frc.robot;
 
 import frc.robot.constants.Constants.OperatorConstants;
 import frc.robot.constants.Constants.ShuffleboardConstants;
+import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Intake;
 
 import frc.robot.commands.Autos;
+import frc.robot.commands.drive.TeleopDrive;
 import frc.robot.commands.intake.HoldIntakeOut;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -37,6 +39,7 @@ public class RobotContainer {
 
 	/* subsystems */
 	private final Intake intake = new Intake();
+	private final Drive drive = new Drive();
 
 	private LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("auto routine");
 
@@ -65,6 +68,7 @@ public class RobotContainer {
 	 */
 	private void configureBindings() {
 		driverController.leftBumper().whileTrue(new HoldIntakeOut(intake));
+		drive.setDefaultCommand(new TeleopDrive(drive, driverController.getHID()));
 	}
 
 	/**
